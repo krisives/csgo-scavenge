@@ -32,31 +32,34 @@ public FindEntityByName(String:entityName[]) {
 public ReadMapEntities() {
 	new lastEntityID = -1;
 	new entityID = -1;
+	new i = -1;
 	
 	new String:parentName[32];
 	
 	PrintToServer("[SCAVENGE] Reading map entities...");
 	
 	while ((entityID = FindEntityByClassname(lastEntityID, "*")) != -1) {
-		allEntities[allEntityCount] = entityID;
-		
+		i = allEntityCount;
+		allEntities[i] = entityID;
+		allEntityCount = allEntityCount + 1;
 		
 		ReadEntity(entityID);
 		lastEntityID = entityID;
 		
 		// Remember the movement type
-		allEntityMovementTypes[allEntityCount] = GetEntityMoveType(entityID);
+		allEntityMovementTypes[i] = GetEntityMoveType(entityID);
+		
+		// Remember entity names
+		GetEntPropString(entityID, Prop_Data, "m_iName", allEntityNames[i], 32);
 		
 		GetEntPropString(entityID, Prop_Data, "m_iParent", parentName, sizeof(parentName));
-		allEntityParents[allEntityCount] = FindEntityByName(parentName);
+		allEntityParents[i] = FindEntityByName(parentName);
 		
 		// While moving things around ensure they don't clip each other
-		SetEntityMoveType(allEntities[allEntityCount], MOVETYPE_NOCLIP);
-		
-		allEntityCount = allEntityCount + 1;
+		SetEntityMoveType(allEntities[i], MOVETYPE_NOCLIP);
 	}
 	
-	PrintToServer("[SCAVENGE] %d total particles", particleCount);
+	PrintToServer("[SCAVENGE] %d total entities", allEntityCount);
 }
 
 // Checks if an entity starts with "p_" and makes a particle for it

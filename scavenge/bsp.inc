@@ -128,7 +128,6 @@ public ReadMetaText(String:readBuffer[], bytesRead) {
 	}
 	
 	if (nextStartPos < 0) {
-		PrintToServer("[SCAVENGE] Cannot find '{'");
 		return -1;
 	}
 	
@@ -138,7 +137,7 @@ public ReadMetaText(String:readBuffer[], bytesRead) {
 }
 
 public ParseMetaText(String:readBuffer[]) {
-	PrintToServer("--------");
+	//PrintToServer("--------");
 	//PrintToServer("%s", readBuffer);
 	//PrintToServer("--------");
 	
@@ -159,8 +158,6 @@ public ParseMetaText(String:readBuffer[]) {
 		}
 		
 		if (strcmp(key, "targetname") == 0) {
-			PrintToServer("[SCAVENGE] %s", lines[i]);
-			
 			entityName = value;
 			break;
 		}
@@ -174,8 +171,6 @@ public ParseMetaText(String:readBuffer[]) {
 		if (!ParseMetaLine(lines[i], key, value)) {
 			continue;
 		}
-		
-		PrintToServer("[SCAVENGE] %s = %s", key, value);
 		
 		if (StrContains(key, "scv_") == 0) {
 			ParseMetaKey(entityName, key, value);
@@ -249,14 +244,22 @@ public SubStringCopy(const String:from[], fromPos, len, String:to[]) {
 }
 
 public ParseMetaKey(String:entityName[], String:key[], String:value[]) {
+	PrintToServer("[SCAVENGE] %s = %s", key, value);
 	
+	if (strcmp(key, "scv_constraint") == 0) {
+		return;
+	}
+	
+	if (strcmp(key, "scv_group") == 0) {
+		return;
+	}
 }
 
 public bool:ReadMetaOffset() {
 	new String:stringBuffer[16];
 	new dataBuffer[16];
 	
-	PrintToServer("[SCAVENGE] ReadMetaOffset");
+	//PrintToServer("[SCAVENGE] ReadMetaOffset");
 	
 	// Check for VBSP header
 	if (ReadFileString(mapFile, stringBuffer, sizeof(stringBuffer), 4) != 4) {
@@ -274,13 +277,15 @@ public bool:ReadMetaOffset() {
 		return false;
 	}
 	
-	PrintToServer("dataBuffer[0] = %d", dataBuffer[0]);
-	PrintToServer("dataBuffer[1] = %d", dataBuffer[1]);
-	PrintToServer("dataBuffer[2] = %d", dataBuffer[2]);
-	PrintToServer("dataBuffer[3] = %d", dataBuffer[3]);
+	//PrintToServer("dataBuffer[0] = %d", dataBuffer[0]);
+	//PrintToServer("dataBuffer[1] = %d", dataBuffer[1]);
+	//PrintToServer("dataBuffer[2] = %d", dataBuffer[2]);
+	//PrintToServer("dataBuffer[3] = %d", dataBuffer[3]);
 	
 	mapMetaOffset = (dataBuffer[0] & 0xFF) | ((dataBuffer[1] & 0xFF) << 8) | ((dataBuffer[2] & 0xFF) <<  16) | ((dataBuffer[3] & 0xFF) << 24);
-	PrintToServer("[SCAVENGE] mapMetaOffset = %d", mapMetaOffset);
+	
+	//PrintToServer("[SCAVENGE] mapMetaOffset = %d", mapMetaOffset);
+	
 	return true;
 }
 

@@ -44,6 +44,7 @@ new String:particleName[1024][32];
 
 new allEntities[4096];
 new allEntityParents[4096];
+new String:allEntityNames[4096][32];
 new MoveType:allEntityMovementTypes[4096];
 new allEntityCount = 0;
 

@@ -1,4 +1,31 @@
 
+// Called every time the map may have been changed
+public ReadMap() {
+	new String:mapName[32];
+	
+	GetCurrentMap(mapName, sizeof(mapName));
+	
+	if (strcmp(currentMap, mapName) == 0) {
+		return;
+	}
+	
+	// Map is actually different from what we last saw
+	currentMap = mapName;
+	particleCount = 0;
+	particleGroupCount = 0;
+	constraintCount = 0;
+	allEntityCount = 0;
+	mapBoundsPoints = 0;
+	
+	PrintToServer("[SCAVENGE] Reading map %s", mapName);
+	
+	// Reads the data from the world
+	ReadMapEntities();
+	
+	// Reads extra meta data
+	ReadMapMetaData();
+	CalculateMapBounds();
+}
 
 // Find the bounds of the map and the center. This is the area
 // where entities may spawn within
@@ -84,25 +111,4 @@ public ReloadMap() {
 	LayoutMap();
 }
 
-public ReadMap() {
-	new String:mapName[32];
-	
-	GetCurrentMap(mapName, sizeof(mapName));
-	
-	if (strcmp(currentMap, mapName) == 0) {
-		return;
-	}
-	
-	currentMap = mapName;
-	particleCount = 0;
-	particleGroupCount = 0;
-	constraintCount = 0;
-	allEntityCount = 0;
-	mapBoundsPoints = 0;
-	
-	PrintToServer("[SCAVENGE] Reading map %s", mapName);
-	
-	ReadMapEntities();
-	ReadMapMetaData();
-	CalculateMapBounds();
-}
+

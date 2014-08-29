@@ -18,11 +18,11 @@
 
 public Plugin:myinfo =
 {
-  name = "Scavenge Randomizer",
-  author = "Kristopher Ives",
-  description = "Randomizes the location of things in a map",
-  version = "1.2",
-  url = "https://github.com/krisives/csgo-scavenge"
+	name = "Scavenge Randomizer",
+	author = "Kristopher Ives",
+	description = "Randomizes the location of things in a map",
+	version = "1.5",
+	url = "https://github.com/krisives/csgo-scavenge"
 };
 
 public OnPluginStart()
