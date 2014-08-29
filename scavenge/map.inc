@@ -102,8 +102,7 @@ public ReadMap() {
 	
 	PrintToServer("[SCAVENGE] Reading map %s", mapName);
 	
-	ReadMapData();
 	ReadMapEntities();
+	ReadMapMetaData();
 	CalculateMapBounds();
-	ReadConstraints();
 }

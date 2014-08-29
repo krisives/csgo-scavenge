@@ -54,8 +54,6 @@ public OnMapEnd() {
 	
 }
 
-
-
 // Creates a new map ID and loads it
 public GenerateMap() {
 	PrintToServer("[SCAVENGE] Generating new map...");
@@ -164,8 +162,8 @@ public LayoutEntity(i) {
 	
 	SetEntityMoveType(allEntities[i], allEntityMovementTypes[i]);
 	
-	SetVariantString(allEntityParents[i]);
-	AcceptEntityInput(allEntities[i], "SetParent"); 
+	//SetVariantString(allEntityParents[i]);
+	//AcceptEntityInput(allEntities[i], "SetParent"); 
 }
 
 public LayoutMapParticle(id) {	

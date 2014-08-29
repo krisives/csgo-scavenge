@@ -14,7 +14,6 @@ new Float:mapBoundsMax[3];
 new Float:mapCenter[3];
 
 new mapMetaOffset = -1;
-new Handle:mapMetaData = INVALID_HANDLE;
 new Handle:mapFile = INVALID_HANDLE;
 
 // Constraints contain the particle indices and the distance that should be between them
@@ -45,6 +44,6 @@ new String:particleName[1024][32];
 
 new allEntities[4096];
 new allEntityParents[4096];
-new allEntityMovementTypes[4096];
+new MoveType:allEntityMovementTypes[4096];
 new allEntityCount = 0;
 
