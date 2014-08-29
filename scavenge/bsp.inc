@@ -1,4 +1,13 @@
- 
+
+// Functions for parsing the entity data from BSP. There are
+// supposed to be better ways of doing this, such as using the
+// OnLevelInit() hook - but at the time of writing (2014) they
+// do not appear to work at all. Instead we have to parse the
+// BSP header (very easy) and grab the data from somewhere in
+// the map file.
+
+// After parsing we look for scv_group and scv_constraint and
+// match them up using "targetname" (the name of the entity)
  
 public ReadMapMetaData() {
 	if (!ExtractEntFromBsp()) {
@@ -79,6 +88,8 @@ public bool:ExtractEntFromBsp() {
 	return true;
 }
 
+// Reads a chunk of text that should begin with a '{' until it ends with a '}' then
+// calls ParseMetaText() with that substring
 public ReadMetaText(String:readBuffer[], bytesRead) {
 	new i;
 	new String:c;
@@ -180,6 +191,12 @@ public ParseMetaText(String:readBuffer[]) {
 
 public bool:ParseMetaLine(const String:line[], String:key[], String:value[]) {
 	if (strlen(line) <= 0) {
+		key[0] = '\0';
+		value[0] = '\0';
+		return false;
+	}
+	
+	if (line[0] == '{' || line[0] == '}') {
 		key[0] = '\0';
 		value[0] = '\0';
 		return false;
@@ -289,8 +306,5 @@ public bool:ReadMetaOffset() {
 	return true;
 }
 
-public ReadMetaEntity() {
-	
-}
 
 
