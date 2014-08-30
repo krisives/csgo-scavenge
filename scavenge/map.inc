@@ -10,7 +10,7 @@ public ReadMap() {
 	}
 	
 	// Map is actually different from what we last saw
-	currentMap = mapName;
+	strcopy(currentMap, sizeof(currentMap), mapName);
 	particleCount = 0;
 	particleGroupCount = 0;
 	constraintCount = 0;

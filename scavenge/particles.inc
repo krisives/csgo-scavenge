@@ -2,7 +2,7 @@
 
 
 
-public FindParticleByName(String:name[]) {
+public FindParticleByName(const String:name[]) {
 	new i = 0;
 	new count = particleCount;
 	

@@ -169,7 +169,7 @@ public ParseMetaText(String:readBuffer[]) {
 		}
 		
 		if (strcmp(key, "targetname") == 0) {
-			entityName = value;
+			strcopy(entityName, sizeof(entityName), value);
 			break;
 		}
 	}
@@ -221,6 +221,9 @@ public bool:ParseMetaLine(const String:line[], String:key[], String:value[]) {
 		return false;
 	}
 	
+//	key[keyPos] = '\0';
+//	value[valuePos] = '\0';
+	
 	return true;
 }
 
@@ -258,18 +261,38 @@ public SubStringCopy(const String:from[], fromPos, len, String:to[]) {
 	for (i=0; i < len; i++) {
 		to[i] = from[fromPos + i];
 	}
+	
+	to[len] = '\0';
 }
 
-public ParseMetaKey(String:entityName[], String:key[], String:value[]) {
+public ParseMetaKey(const String:entityName[], String:key[], const String:value[]) {
 	PrintToServer("[SCAVENGE] %s = %s", key, value);
 	
 	if (strcmp(key, "scv_constraint") == 0) {
+		ParseConstraint(entityName, value);
 		return;
 	}
 	
 	if (strcmp(key, "scv_group") == 0) {
 		return;
 	}
+}
+
+public ParseConstraint(const String:entityName[], const String:line[]) {
+	new String:args[16][32];
+	new argCount;
+	new Float:distance;
+	
+	argCount = ExplodeString(line, " ", args, 16, 32);
+	
+	if (argCount <= 0) {
+		PrintToServer("[SCAVENGE] Missing arguments for scv_constraint");
+		return;
+	}
+	
+	distance = StringToFloat(args[0]);
+	PrintToServer("[SCAVENGE] Constraint(%s, %s, %f)", entityName, args[1], distance);
+	AddConstraintByName(entityName, args[1], distance);
 }
 
 public bool:ReadMetaOffset() {

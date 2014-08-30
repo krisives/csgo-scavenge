@@ -153,6 +153,7 @@ public NoClipEntity(i) {
 	}
 	
 	SetEntityMoveType(allEntities[i], MOVETYPE_NOCLIP);
+	//AcceptEntityInput(allEntities[i], "ClearParent");
 }
 
 public LayoutEntity(i) {
@@ -160,10 +161,28 @@ public LayoutEntity(i) {
 		return;
 	}
 	
+	new Float:absPos[3];
+	new parentID = -1;
+	
 	SetEntityMoveType(allEntities[i], allEntityMovementTypes[i]);
 	
-	//SetVariantString(allEntityParents[i]);
-	//AcceptEntityInput(allEntities[i], "SetParent"); 
+	if (strlen(allEntityParents[i]) > 0) {
+		//SetVariantString(allEntityParents[i]);
+		//AcceptEntityInput(allEntities[i], "SetParent");
+		
+		parentID = FindParticleByName(allEntityParents[i]);
+		
+		if (parentID != -1) {
+			absPos[0] = allEntityPos[i][0];
+			absPos[1] = allEntityPos[i][1];
+			absPos[2] = allEntityPos[i][2];
+			
+			PrintToServer("[SCAVENGE] %s (%f, %f, %f)", allEntityParents[i], absPos[0], absPos[1], absPos[2]);
+			TeleportEntity(allEntities[i], absPos, NULL_VECTOR, NULL_VECTOR);
+		}
+		
+		
+	}
 }
 
 public LayoutMapParticle(id) {	

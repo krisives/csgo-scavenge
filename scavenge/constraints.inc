@@ -45,7 +45,7 @@ public SolveMapBounds() {
 
 public bool:HasConstraint(a, b) {
 	new i = 0;
-	new count = particleCount;
+	new count = constraintCount;
 	
 	for (i = 0; i < count; i++) {
 		if (constraints[i][0] == a && constraints[i][1] == b) {
@@ -94,6 +94,18 @@ public AddConstraint(a, b, Float:distance) {
 	
 	return index;
 }
+
+
+public AddConstraintByName(const String:aName[], const String:bName[], Float:distance) {
+	PrintToServer("[SCAVENGE] AddConstraintByName(%s, %s, %f)", aName, bName, distance);
+	
+	new a = FindParticleByName(aName);
+	new b = FindParticleByName(bName);
+	PrintToServer("[SCAVENGE] AddConstraintByName(%d, %d, %f)", a, b, distance);
+	return AddConstraint(a, b, distance);
+}
+
+
 
 
 
