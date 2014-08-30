@@ -11,86 +11,6 @@ public Action:ForceCommand(args) {
 	LayoutMap();
 }
 
-
-
-public Action:GroupCommand(totalArgCount) {
-	// scv_group <group> <distance> <particles>...
-	
-	DebugCommand();
-	
-	if (totalArgCount < 4) {
-		PrintToServer("[SCAVENGE] scv_group missing parameters");
-		return;
-	}
-	
-	new String:groupName[32];
-	new String:distanceText[32];
-	new String:args[16][32];
-	new argCount = argCount - 3;
-	new i = 0;
-	
-	GetCmdArg(1, groupName, sizeof(groupName));
-	GetCmdArg(2, distanceText, sizeof(distanceText));
-	
-	for (i=0; i < argCount; i++) {
-		GetCmdArg(3 + i, args[i], 32);
-	}
-	
-	GroupFromArray(groupName, distanceText, args, argCount);
-}
-
-public GroupFromLine(String:groupName[32], String:distanceText[32], String:listText[200]) {
-	new String:args[16][32];
-	new argCount = 0;
-	
-	argCount = ExplodeString(listText, " ", args, 16, 32);
-	GroupFromArray(groupName, distanceText, args, argCount);
-}
-
-public GroupFromArray(String:groupName[32], String:distanceText[32], String:args[][], argCount) {
-	new Float:distance = 0.0;
-	new groupID = -1;
-	
-	if (argCount <= 0) {
-		PrintToServer("[SCAVENGE] Tried to group nothing");
-		return;
-	}
-	
-	distance = StringToFloat(distanceText);
-
-	if (distance <= 0) {
-		PrintToServer("[SCAVENGE] Distance must be greater than zero");
-		return;
-	}
-	
-	groupID = FindParticleGroup(groupName);
-	
-	if (groupID == -1) {
-		groupID = CreateParticleGroup(groupName, distance);
-	}
-	
-	new i = 0;
-	new particleID = -1;
-	
-	for (i = 0; i < argCount; i++) {
-		if (strlen(args[i]) <= 0) {
-			PrintToServer("[SCAVENGE] Empty argument");
-			continue;
-		}
-		
-		particleID = FindParticleByName(args[i]);
-		
-		if (particleID == -1) {
-			PrintToServer("[SCAVENGE] Cannot find particle '%s'", args[i]);
-			continue;
-		}
-		
-		AddParticleToGroup(groupID, particleID);
-		AddGroupConstraint(groupID, particleID, distance);
-	}
-}
-
-
 public Action:ConstraintCommand(argCount) {
 	// scv_constraint <distance> <a> <b>
 	
@@ -138,40 +58,14 @@ public Constraint(String:distanceText[16], String:sourceText[32], String:destTex
 		sourceTargetCount = 1;
 		sourceTargets[0] = FindParticleByName(sourceText);
 	} else {
-		sourceGroupID = FindParticleGroup(sourceText);
-		
-		if (sourceGroupID == -1) {
-			PrintToServer("[SCAVENGE] scv_constraint cannot find source group '%s'", sourceText);
-			return;
-		}
-		
-		sourceTargetCount = particleGroupChildCount[sourceGroupID];
-		
-		for (i = 0; i < sourceTargetCount; i++) {
-			sourceTargets[i] = particleGroupChild[sourceGroupID][i];
-		}
-		
-		//sourceTargets = particleGroupChild[sourceGroupID];
+		sourceGroupID = -1;
 	}
 	
 	if (StrContains(destText, "p_") == 0) {
 		destTargetCount = 1;
 		destTargets[0] = FindParticleByName(destText);
 	} else {
-		destGroupID = FindParticleGroup(destText);
-		
-		if (destGroupID == -1) {
-			PrintToServer("[SCAVENGE] scv_constraint cannot find dest group '%s'", destText);
-			return;
-		}
-		
-		destTargetCount = particleGroupChildCount[destGroupID];
-		
-		for (i = 0; i < destTargetCount; i++) {
-			destTargets[i] = particleGroupChild[destGroupID][i];
-		}
-		
-		//destTargets = particleGroupChild[destGroupID];
+		destGroupID = -1;
 	}
 	
 	if (sourceTargetCount <= 0 || destTargetCount <= 0) {

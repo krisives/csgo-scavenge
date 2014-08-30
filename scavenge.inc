@@ -12,7 +12,6 @@
 #include "scavenge/map.inc"
 #include "scavenge/entity.inc"
 #include "scavenge/constraints.inc"
-#include "scavenge/groups.inc"
 #include "scavenge/commands.inc"
 #include "scavenge/hooks.inc"
 
@@ -31,7 +30,6 @@ public OnPluginStart()
 	
 	HookEvent("round_start", OnRoundEndHook, EventHookMode_Post);
 	
-	RegServerCmd("scv_group", GroupCommand);
 	RegServerCmd("scv_constraint", ConstraintCommand);
 	RegServerCmd("scv_regen", ReloadMapCommand);
 	RegServerCmd("scv_force", ForceCommand);
@@ -90,7 +88,6 @@ public SolveMap() {
 	PrintToServer("[SCAVENGE] Solving map...");
 	PrintToServer("[SCAVENGE] %d constraints", constraintCount);
 	PrintToServer("[SCAVENGE] %d particles", particleCount);
-	PrintToServer("[SCAVENGE] %d groups", particleGroupCount);
 	
 	for (i = 0; i < 32; i++) {
 		SolveMapStep();

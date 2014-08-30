@@ -21,17 +21,6 @@ new constraintCount = 0;
 new constraints[4096][2];
 new Float:constraintDistances[4096];
 
-
-
-// Groups of particles such as a team of terrorists, CTs, weapons, bombs,
-// are things that will have constraints between them
-new particleGroupCount = 0;
-new String:particleGroupName[32][50];
-new particleGroupChildCount[32];
-new particleGroupChild[32][32];
-new Float:particleGroupDistance[32];
-
-
 // Each thing in the map that can move around is a particle within
 // a verlet simulation. Entities in the map that start with p_ are
 // put into this array

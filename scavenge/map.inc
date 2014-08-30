@@ -12,7 +12,6 @@ public ReadMap() {
 	// Map is actually different from what we last saw
 	strcopy(currentMap, sizeof(currentMap), mapName);
 	particleCount = 0;
-	particleGroupCount = 0;
 	constraintCount = 0;
 	allEntityCount = 0;
 	mapBoundsPoints = 0;
