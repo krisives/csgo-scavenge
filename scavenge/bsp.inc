@@ -205,7 +205,7 @@ public bool:ParseMetaLine(const String:line[], String:key[], String:value[]) {
 	new keyPos;
 	new valuePos;
 	
-	keyPos = ParseMetaString(line, 0, key);
+	keyPos = ParseQuotedString(line, 0, key);
 	
 	if (keyPos < 0) {
 		key[0] = '\0';
@@ -213,7 +213,7 @@ public bool:ParseMetaLine(const String:line[], String:key[], String:value[]) {
 		return false;
 	}
 	
-	valuePos = ParseMetaString(line, keyPos, value);
+	valuePos = ParseQuotedString(line, keyPos, value);
 	
 	if (valuePos == -1) {
 		key[0] = '\0';
@@ -221,50 +221,10 @@ public bool:ParseMetaLine(const String:line[], String:key[], String:value[]) {
 		return false;
 	}
 	
-//	key[keyPos] = '\0';
-//	value[valuePos] = '\0';
-	
 	return true;
 }
 
-public ParseMetaString(const String:line[], pos, String:buffer[]) {
-	new String:c;
-	new quoteStart = -1;
-	
-	while ((c = line[pos]) != '\0') {
-		pos = pos + 1;
-		
-		if (c != '"') {
-			continue;
-		}
-		
-		if (quoteStart == -1) {
-			quoteStart = pos;
-			continue;
-		} else {
-			SubStringCopy(line, quoteStart, pos - quoteStart - 1, buffer);
-			return pos + 1;
-		}
-	}
-	
-	return -1;
-}
-
-public SubStringCopy(const String:from[], fromPos, len, String:to[]) {
-	if (len <= 0) {
-		to[0] = '\0';
-		return;
-	}
-	
-	new i;
-	
-	for (i=0; i < len; i++) {
-		to[i] = from[fromPos + i];
-	}
-	
-	to[len] = '\0';
-}
-
+// Parse a key on an entity that matched scv_
 public ParseMetaKey(const String:entityName[], String:key[], const String:value[]) {
 	PrintToServer("[SCAVENGE] %s = %s", key, value);
 	
@@ -278,6 +238,7 @@ public ParseMetaKey(const String:entityName[], String:key[], const String:value[
 	}
 }
 
+// Parse a scv_constraint on an entity
 public ParseConstraint(const String:entityName[], const String:line[]) {
 	new String:args[16][32];
 	new argCount;
@@ -291,19 +252,21 @@ public ParseConstraint(const String:entityName[], const String:line[]) {
 	}
 	
 	distance = StringToFloat(args[0]);
-	PrintToServer("[SCAVENGE] Constraint(%s, %s, %f)", entityName, args[1], distance);
 	AddConstraintByName(entityName, args[1], distance);
 }
 
 public bool:ReadMetaOffset() {
-	new String:stringBuffer[16];
-	new dataBuffer[16];
-	
-	//PrintToServer("[SCAVENGE] ReadMetaOffset");
+	new String:str[16];
+	new data[16];
 	
 	// Check for VBSP header
-	if (ReadFileString(mapFile, stringBuffer, sizeof(stringBuffer), 4) != 4) {
+	if (ReadFileString(mapFile, str, sizeof(str), 4) != 4) {
 		PrintToServer("[SCAVENGE] Cannot read VBSP header");
+		return false;
+	}
+	
+	if (strcmp(str, "VBSP") != 0) {
+		PrintToServer("[SCAVENGE] Missing VBSP header");
 		return false;
 	}
 	
@@ -312,19 +275,13 @@ public bool:ReadMetaOffset() {
 		return false;
 	}
 	
-	if (ReadFile(mapFile, dataBuffer, 4, 1) != 4) {
+	if (ReadFile(mapFile, data, 4, 1) != 4) {
 		PrintToServer("[SCAVENGE] Cannot read meta data offset bytes");
 		return false;
 	}
 	
-	//PrintToServer("dataBuffer[0] = %d", dataBuffer[0]);
-	//PrintToServer("dataBuffer[1] = %d", dataBuffer[1]);
-	//PrintToServer("dataBuffer[2] = %d", dataBuffer[2]);
-	//PrintToServer("dataBuffer[3] = %d", dataBuffer[3]);
-	
-	mapMetaOffset = (dataBuffer[0] & 0xFF) | ((dataBuffer[1] & 0xFF) << 8) | ((dataBuffer[2] & 0xFF) <<  16) | ((dataBuffer[3] & 0xFF) << 24);
-	
-	//PrintToServer("[SCAVENGE] mapMetaOffset = %d", mapMetaOffset);
+	// Combine 32-bit integer from 4 bytes
+	mapMetaOffset = (data[0] & 0xFF) | ((data[1] & 0xFF) << 8) | ((data[2] & 0xFF) <<  16) | ((data[3] & 0xFF) << 24);
 	
 	return true;
 }

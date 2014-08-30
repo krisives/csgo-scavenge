@@ -31,8 +31,6 @@ public ReadMapEntities() {
 	new lastEntityID = -1;
 	new entityID = -1;
 	new i = -1;
-	new parentEntityID = -1;
-	new Float:parentPos[3];
 	
 	PrintToServer("[SCAVENGE] Reading map entities...");
 	
@@ -54,27 +52,6 @@ public ReadMapEntities() {
 		GetEntPropString(entityID, Prop_Data, "m_iName", allEntityNames[i], 32);
 		GetEntPropString(entityID, Prop_Data, "m_iParent", allEntityParents[i], 32);
 		GetEntPropVector(entityID, Prop_Data, "m_vecOrigin", allEntityPos[i]);
-		
-		if (strlen(allEntityParents[i]) > 0) {
-			parentEntityID = FindEntityByName(allEntityParents[i]);
-			
-			if (parentEntityID == -1) {
-				PrintToServer("[SCAVENGE] Cannot find parent %s", allEntityParents[i]);
-			} else {
-				GetEntPropVector(parentEntityID, Prop_Data, "m_vecOrigin", parentPos);
-				
-				//allEntityPos[i][0] = allEntityPos[i][0];// - parentPos[0];
-				//allEntityPos[i][1] = allEntityPos[i][1];// - parentPos[1];
-				//allEntityPos[i][2] = parentPos[2];// + allEntityPos[i][2];
-				
-				PrintToServer("[SCAVENGE] %s (%f, %f, %f)", allEntityNames[i], allEntityPos[i][0], allEntityPos[i][1], allEntityPos[i][2]);
-				
-				
-			}
-			
-			//AcceptEntityInput(entityID, "ClearParent");
-			//DispatchKeyValue(entityID, "parentname", "");
-		}
 		
 		// While moving things around ensure they don't clip each other
 		SetEntityMoveType(entityID, MOVETYPE_NOCLIP);

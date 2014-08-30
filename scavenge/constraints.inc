@@ -33,16 +33,7 @@ public SolveConstraint(id) {
 	particlePos[b][1] = particlePos[b][1] - dy * p;
 }
 
-public SolveMapBounds() {
-	new i = 0;
-	new count = particleCount;
-	
-	for (i=0; i < count; i++) {
-		KeepParticleWithinBounds(i);
-	}
-}
-
-
+// Checks if a constraint exists between two particles
 public bool:HasConstraint(a, b) {
 	new i = 0;
 	new count = constraintCount;

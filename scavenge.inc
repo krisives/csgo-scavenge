@@ -20,7 +20,7 @@ public Plugin:myinfo =
 	name = "Scavenge Randomizer",
 	author = "Kristopher Ives",
 	description = "Randomizes the location of things in a map",
-	version = "1.5",
+	version = "2.0",
 	url = "https://github.com/krisives/csgo-scavenge"
 };
 
@@ -78,7 +78,6 @@ public SetParticlePositions() {
 	for (i=0; i < particleCount; i++) {
 		particlePos[i][0] = mapBoundsMin[0] + GetURandomFloat() * size[0];
 		particlePos[i][1] = mapBoundsMin[1] + GetURandomFloat() * size[1];
-		//particlePos[i][2] = mapBoundsMin[2] + GetURandomFloat() * size[2];
 	}
 }
 
@@ -150,7 +149,6 @@ public NoClipEntity(i) {
 	}
 	
 	SetEntityMoveType(allEntities[i], MOVETYPE_NOCLIP);
-	//AcceptEntityInput(allEntities[i], "ClearParent");
 }
 
 public LayoutEntity(i) {
@@ -164,9 +162,6 @@ public LayoutEntity(i) {
 	SetEntityMoveType(allEntities[i], allEntityMovementTypes[i]);
 	
 	if (strlen(allEntityParents[i]) > 0) {
-		//SetVariantString(allEntityParents[i]);
-		//AcceptEntityInput(allEntities[i], "SetParent");
-		
 		parentID = FindParticleByName(allEntityParents[i]);
 		
 		if (parentID != -1) {
@@ -177,8 +172,6 @@ public LayoutEntity(i) {
 			PrintToServer("[SCAVENGE] %s (%f, %f, %f)", allEntityParents[i], absPos[0], absPos[1], absPos[2]);
 			TeleportEntity(allEntities[i], absPos, NULL_VECTOR, NULL_VECTOR);
 		}
-		
-		
 	}
 }
 

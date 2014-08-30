@@ -38,9 +38,8 @@ public Constraint(String:distanceText[16], String:sourceText[32], String:destTex
 	new destTargetCount = 0;
 	new destTargets[32];
 	new Float:distance = 0.0;
-	new sourceGroupID = -1;
-	new destGroupID = -1;
-	new i = 0;
+	//new sourceGroupID = -1;
+	//new destGroupID = -1;
 	
 	distance = StringToFloat(distanceText);
 	
@@ -58,14 +57,14 @@ public Constraint(String:distanceText[16], String:sourceText[32], String:destTex
 		sourceTargetCount = 1;
 		sourceTargets[0] = FindParticleByName(sourceText);
 	} else {
-		sourceGroupID = -1;
+		//sourceGroupID = -1;
 	}
 	
 	if (StrContains(destText, "p_") == 0) {
 		destTargetCount = 1;
 		destTargets[0] = FindParticleByName(destText);
 	} else {
-		destGroupID = -1;
+		//destGroupID = -1;
 	}
 	
 	if (sourceTargetCount <= 0 || destTargetCount <= 0) {
