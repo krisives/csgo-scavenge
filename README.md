@@ -20,7 +20,7 @@ The next time sourcemod plugins are loaded the scavenge plugin should be loaded.
 
 Creating maps is easy!
 
-* Add four (4) `info_null` entities called `bounds1` through `bounds4`. These
+* Add four (4) `info_target` entities called `bounds1` through `bounds4`. These
   should be placed around the perimeter of the spawnable area in the map.
 
 * Tie each thing to be randomly placed to an entity in the Hammer editor
