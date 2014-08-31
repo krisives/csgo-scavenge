@@ -8,7 +8,7 @@ game mode designed more around on-the-go strategy and adaption.
 
 # Installation
 
-Download the .zip file from Github. It contains a few things:
+Download the [release zip file](https://github.com/krisives/csgo-scavenge/archive/master.zip) file from Github. It contains a few things:
 
 * The `scavenge.amx` plugin which you can install into your
   `addons/sourcemod/plugins/` directory.
