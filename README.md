@@ -8,13 +8,12 @@ game mode designed more around on-the-go strategy and adaption.
 
 # Installation
 
-Download a tarball from Github and extract it into your `csgo` directory for
-your dedicated server:
+Download the .zip file from Github. It contains a few things:
 
-    wget -O csgo-scavenge.tar.gz https://github.com/krisives/csgo-scavenge/archive/master.tar.gz
-    tar xzf csgo-scavenge.tar.gz
+* The `scavenge.amx` plugin which you can install into your
+  `addons/sourcemod/plugins/` directory.
 
-The next time sourcemod plugins are loaded the scavenge plugin should be loaded.
+* The `maps/` directory contains any `scv_` you might want to run.
 
 # Creating Maps
 
