@@ -26,8 +26,8 @@ Creating maps is easy!
   starting with `p_` such as `p_littlehut`. By default it can spawn anywhere
   within the bounds.
 
-* Add `constraint_group` to any entity to assign it to a constraint group. For example,
-  a team of counter terrorists can be assigned to a group called `cts`.
+* To force an entity to spawn some distance away from another use add a key
+  to that entity named `scv_constraint`. The value should be the distance followed
+  by the name of the entity (separated by spaces, with no quotes)
 
-* To force something to spawn a distance away from other entities use the `constraint_distance`
-  key/value pair. The value is a space-separated list of group names followed by the distance.
+
