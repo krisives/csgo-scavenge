@@ -94,14 +94,9 @@ public SolveMap() {
 }
 
 public SolveMapStep() {
-	
 	SolveMapConstraints();
-	
-	for (new i=0; i < 3; i++) {
-		SolveMapParticles();
-	}
-	
 	SolveMapBounds();
+	SolveMapParticles();
 }
 
 public SolveMapParticles() {
@@ -169,10 +164,12 @@ public LayoutEntity(i) {
 			absPos[1] = allEntityPos[i][1];
 			absPos[2] = allEntityPos[i][2];
 			
-			PrintToServer("[SCAVENGE] %s (%f, %f, %f)", allEntityParents[i], absPos[0], absPos[1], absPos[2]);
+			//PrintToServer("[SCAVENGE] %s (%f, %f, %f)", allEntityParents[i], absPos[0], absPos[1], absPos[2]);
 			TeleportEntity(allEntities[i], absPos, NULL_VECTOR, NULL_VECTOR);
 		}
 	}
+	
+	
 }
 
 public LayoutMapParticle(id) {	
@@ -182,9 +179,6 @@ public LayoutMapParticle(id) {
 		PrintToServer("[SCAVENGE] %s is not valid entity", particleName[id]);
 		return;
 	}
-	
-	// While moving things around ensure they don't clip each other
-	//SetEntityMoveType(particleEnt[id], MOVETYPE_NOCLIP);
 	
 	// Move the entity into place
 	TeleportEntity(particleEnt[id], particlePos[id], NULL_VECTOR, NULL_VECTOR);

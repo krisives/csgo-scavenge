@@ -88,11 +88,13 @@ public AddConstraint(a, b, Float:distance) {
 
 
 public AddConstraintByName(const String:aName[], const String:bName[], Float:distance) {
-	PrintToServer("[SCAVENGE] AddConstraintByName(%s, %s, %f)", aName, bName, distance);
+	//PrintToServer("[SCAVENGE] AddConstraintByName(%s, %s, %f)", aName, bName, distance);
 	
 	new a = FindParticleByName(aName);
 	new b = FindParticleByName(bName);
-	PrintToServer("[SCAVENGE] AddConstraintByName(%d, %d, %f)", a, b, distance);
+	
+	//PrintToServer("[SCAVENGE] AddConstraintByName(%d, %d, %f)", a, b, distance);
+	
 	return AddConstraint(a, b, distance);
 }
 

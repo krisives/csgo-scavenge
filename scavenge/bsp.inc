@@ -226,14 +226,14 @@ public bool:ParseMetaLine(const String:line[], String:key[], String:value[]) {
 
 // Parse a key on an entity that matched scv_
 public ParseMetaKey(const String:entityName[], String:key[], const String:value[]) {
-	PrintToServer("[SCAVENGE] %s = %s", key, value);
+	//PrintToServer("[SCAVENGE] %s = %s", key, value);
 	
-	if (strcmp(key, "scv_constraint") == 0) {
+	if (StrContains(key, "scv_constraint") == 0) {
 		ParseConstraint(entityName, value);
 		return;
 	}
 	
-	if (strcmp(key, "scv_group") == 0) {
+	if (StrContains(key, "scv_group") == 0) {
 		return;
 	}
 }

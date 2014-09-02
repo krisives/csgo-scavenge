@@ -20,10 +20,54 @@ public ReadMap() {
 	
 	// Reads the data from the world
 	ReadMapEntities();
+	GenerateWeapons();
 	
 	// Reads extra meta data
 	ReadMapMetaData();
 	CalculateMapBounds();
+}
+
+public GenerateWeapons() {
+	AddWeaponParticle("weapon_p90");
+	AddWeaponParticle("weapon_ak47");
+	AddWeaponParticle("weapon_m4a1");
+	AddWeaponParticle("weapon_m4a1_silencer");
+	
+	AddWeaponParticle("weapon_p250");
+	AddWeaponParticle("weapon_deagle");
+	AddWeaponParticle("weapon_fiveseven");
+	
+	AddWeaponParticle("weapon_awp");
+	AddWeaponParticle("weapon_ssg08");
+	
+	for (new i=0; i < 5; i++) {
+		AddWeaponParticle("weapon_hegrenade");
+		AddWeaponParticle("weapon_flashbang");
+		AddWeaponParticle("weapon_flashbang");
+		AddWeaponParticle("weapon_flashbang");
+	}
+}
+
+public AddWeaponParticle(const String:className[]) {
+	new entityID = -1;
+	new id = -1;
+	
+	entityID = CreateEntityByName(className);
+	
+	if (entityID == -1) {
+		PrintToServer("Cannot create weapon");
+		return -1;
+	}
+	
+	DispatchSpawn(entityID);
+	
+	id = particleCount;
+	particleCount = particleCount + 1;
+
+	
+	strcopy(particleName[id], 32, "");
+	particleEnt[id] = entityID;
+	ReadEntityBounds(id);
 }
 
 // Find the bounds of the map and the center. This is the area

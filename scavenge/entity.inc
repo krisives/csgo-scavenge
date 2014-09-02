@@ -30,39 +30,48 @@ public FindEntityByName(String:entityName[]) {
 public ReadMapEntities() {
 	new lastEntityID = -1;
 	new entityID = -1;
-	new i = -1;
 	
 	PrintToServer("[SCAVENGE] Reading map entities...");
 	
 	while ((entityID = FindEntityByClassname(lastEntityID, "*")) != -1) {
-		i = allEntityCount;
-		allEntities[i] = entityID;
-		allEntityCount = allEntityCount + 1;
-		
-		ReadEntity(entityID);
+		ReadMapEntity(entityID);
 		lastEntityID = entityID;
-		
-		// Remember the movement type
-		allEntityMovementTypes[i] = GetEntityMoveType(entityID);
-		
-		allEntityNames[i][0] = '\0';
-		allEntityParents[i][0] = '\0';
-		
-		// Remember entity name and parent name
-		GetEntPropString(entityID, Prop_Data, "m_iName", allEntityNames[i], 32);
-		GetEntPropString(entityID, Prop_Data, "m_iParent", allEntityParents[i], 32);
-		GetEntPropVector(entityID, Prop_Data, "m_vecOrigin", allEntityPos[i]);
-		
-		// While moving things around ensure they don't clip each other
-		SetEntityMoveType(entityID, MOVETYPE_NOCLIP);
-		
 	}
 	
 	PrintToServer("[SCAVENGE] %d total entities", allEntityCount);
 }
 
+public ReadMapEntity(entityID) {
+	new i = -1;
+	new String:className[32];
+	
+	i = allEntityCount;
+	allEntities[i] = entityID;
+	allEntityCount = allEntityCount + 1;
+	
+	ReadParticle(entityID);
+	
+	// Remember the movement type
+	allEntityMovementTypes[i] = GetEntityMoveType(entityID);
+	
+	allEntityNames[i][0] = '\0';
+	allEntityParents[i][0] = '\0';
+	
+	// Remember entity name and parent name
+	GetEntPropString(entityID, Prop_Data, "m_iName", allEntityNames[i], 32);
+	GetEntPropString(entityID, Prop_Data, "m_iParent", allEntityParents[i], 32);
+	GetEntPropVector(entityID, Prop_Data, "m_vecOrigin", allEntityPos[i]);
+	
+	GetEntityClassname(entityID, className, sizeof(className));
+	
+	PrintToServer("[SCAVENGE] %s (%s)", allEntityNames[i], className);
+	
+	// While moving things around ensure they don't clip each other
+	SetEntityMoveType(entityID, MOVETYPE_NOCLIP);
+}
+
 // Checks if an entity starts with "p_" and makes a particle for it
-public ReadEntity(entityID) {
+public ReadParticle(entityID) {
 	new String:name[32] = "";
 	new particleID = -1;
 	

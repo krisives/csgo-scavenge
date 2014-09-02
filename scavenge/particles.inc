@@ -75,12 +75,12 @@ public SolveParticle(a, b) {
 	new Float:py = ((FloatAbs(dy) - expectedHeight) / FloatAbs(dy)) * 0.5;
 	
 	// Push particle A away
-	particlePos[a][0] = particlePos[a][0] + dx * px;
-	particlePos[a][1] = particlePos[a][1] + dy * py;
+	particlePos[a][0] = particlePos[a][0] + dx * px * 0.5;
+	particlePos[a][1] = particlePos[a][1] + dy * py * 0.5;
 	
 	// Push particle B away
-	particlePos[b][0] = particlePos[b][0] - dx * px;
-	particlePos[b][1] = particlePos[b][1] - dy * py;
+	particlePos[b][0] = particlePos[b][0] - dx * px * 0.5;
+	particlePos[b][1] = particlePos[b][1] - dy * py * 0.5;
 }
 
 // Makes sure each particle is within the spawning area
