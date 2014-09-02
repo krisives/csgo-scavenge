@@ -16,10 +16,12 @@ new Float:mapCenter[3];
 new mapMetaOffset = -1;
 new Handle:mapFile = INVALID_HANDLE;
 
-// Constraints contain the particle indices and the distance that should be between them
-new constraintCount = 0;
-new constraints[4096][2];
-new Float:constraintDistances[4096];
+
+// Constraints that limit two particles to a distance
+new constraintCount = 0;                // Total number of constraints
+new constraints[4096][2];               // Constraints contain the index of two particles
+new Float:constraintDistances[4096];    // How far away the two particles should stay
+
 
 // Each thing in the map that can move around is a particle within
 // a verlet simulation. Entities in the map that start with p_ are

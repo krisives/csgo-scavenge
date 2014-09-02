@@ -18,10 +18,8 @@ public SolveConstraint(id) {
 	new Float:dy = particlePos[b][1] - particlePos[a][1];
 	new Float:distance = SquareRoot(dx * dx + dy * dy);
 	
-	while (distance == 0.0) {
-		dx = GetURandomFloat() * 5.0 - 10.0;
-		dy = GetURandomFloat() * 5.0 - 10.0;
-		distance = SquareRoot(dx * dx + dy * dy);
+	if (distance <= 1.0) {
+		return;
 	}
 	
 	new Float:p = ((distance - expectedDistance) / distance) * 0.5;

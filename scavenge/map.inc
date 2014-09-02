@@ -11,10 +11,16 @@ public ReadMap() {
 	
 	// Map is actually different from what we last saw
 	strcopy(currentMap, sizeof(currentMap), mapName);
+	
 	particleCount = 0;
 	constraintCount = 0;
 	allEntityCount = 0;
 	mapBoundsPoints = 0;
+	
+	// Only apply the plugin to maps of this game type
+	if (StrContains(mapName, "scv_") != 0) {
+		return;
+	}
 	
 	PrintToServer("[SCAVENGE] Reading map %s", mapName);
 	
@@ -68,6 +74,8 @@ public AddWeaponParticle(const String:className[]) {
 	strcopy(particleName[id], 32, "");
 	particleEnt[id] = entityID;
 	ReadEntityBounds(id);
+	
+	return id;
 }
 
 // Find the bounds of the map and the center. This is the area
