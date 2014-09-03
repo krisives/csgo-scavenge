@@ -88,7 +88,7 @@ public SolveMap() {
 	PrintToServer("[SCAVENGE] %d constraints", constraintCount);
 	PrintToServer("[SCAVENGE] %d particles", particleCount);
 	
-	for (i = 0; i < 32; i++) {
+	for (i = 0; i < 64; i++) {
 		SolveMapStep();
 	}
 }
@@ -173,7 +173,7 @@ public LayoutEntity(i) {
 }
 
 public LayoutMapParticle(id) {	
-	KeepParticleWithinBounds(id);
+	//KeepParticleWithinBounds(id);
 	
 	if (!IsValidEntity(particleEnt[id])) {
 		PrintToServer("[SCAVENGE] %s is not valid entity", particleName[id]);
